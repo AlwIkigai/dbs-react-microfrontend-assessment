@@ -25,6 +25,26 @@
 - Discuss meaningful architecture choices before implementing them. Prefer the
   simplest structure that meets the brief; avoid unrelated infrastructure.
 - When the user is reading or asking for explanations, stay within that scope.
+- Before proposing the next task, briefly show what is done, current and remaining.
+- Use step headings and concise right-side code comments for learning examples.
+- The user handles branches, commits, pushes, PRs and deployment unless explicitly
+  delegating execution. Codex handles local implementation assistance and review.
+- Ace is the independent reviewer/planning partner for committed GitHub content.
+  Local uncommitted work is not visible to Ace through GitHub.
+
+## Shared checkpoint
+
+- Use the existing `DBS Assessment Checkpoint` issue #4:
+  https://github.com/AlwIkigai/dbs-react-microfrontend-assessment/issues/4 .
+  It was created with the user's delegation. Do not create a duplicate.
+- Keep its six fields short: current milestone, implemented, verified,
+  outstanding/blockers, next action, last synchronized (date/branch/commit SHA).
+- Link to repo documents and actual verification evidence rather than duplicating
+  task lists or the journal. Update after meaningful milestones, not every edit.
+- Distinguish implemented, automated tests passed, manually verified and
+  deployment verified. A checkbox alone is not verification evidence.
+- Keep original assessment documents authoritative. Do not add another tracker
+  or recurring documentation ceremony. See `docs/git-deployment-workflow.md`.
 
 ## Repository practices
 
