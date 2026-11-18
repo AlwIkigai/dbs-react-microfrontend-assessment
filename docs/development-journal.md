@@ -83,6 +83,36 @@ agree on the first small implementation before changing app code.
 - User requested a pushed checkpoint, plans to open the PR manually, and requested
   an initial deployment. Deployment results will be recorded when known.
 
+## 18 November 2026 — Initial deployment and inspection
+
+- Codex created local branch `feat/dashboard-checkpoint` and commit `fddb0df`.
+  Its push attempt failed with a network error. I pushed the branch, created
+  PR #1 and merged it myself. I asked to handle future Git/PR actions myself.
+- The local production build passed. I imported the repository's main branch
+  into Vercel using Vite, `npm run build`, output `dist` and install `npm ci`.
+- Vercel reported a successful production deployment at
+  https://dbs-react-microfrontend-assessment.vercel.app/ . Screenshots show the
+  deposit total, account cards, transaction list and daily-limit panel.
+- I inspected the deployed app in DevTools. Initial MSW customer, accounts and
+  transaction requests returned 200. A service-worker passthrough fetch for the
+  site root failed, including in an InPrivate session. Cause remains unresolved.
+- With Codex's read-only settings check, I identified Vercel Authentication
+  protection on all deployments and project Node version 26.x. We chose public
+  reviewer access and the documented Node 22 environment. A later screenshot
+  shows 22.x selected with a warning that production used a different version.
+  Saving/confirming protection and signed-out access still need verification;
+  the next deployment must apply and verify Node 22.
+- I changed Codex's suggested order: update documentation, open/merge a PR to
+  trigger a deployment, then test public access and refresh on that deployment.
+  Public access could also be checked immediately after saving protection;
+  my sequence groups it with the Node-version redeployment check.
+- I created `docs/deployment-status` after updating local main. I asked Codex
+  to update README, task list and journal; I will commit, push and open the PR.
+- Visitor passwords were considered for future use, not enabled or added as an
+  assessment feature. The assessment deployment needs accessible reviewer entry.
+- These settings changes are not a verified fix for the service-worker error.
+  Transfers, themes and remaining mandatory work are still outstanding.
+
 ## Future entry outline
 
 - Objective and requirement IDs:

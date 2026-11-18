@@ -1,6 +1,6 @@
 # Meridian Banking — Syed Ahmad Alwi Bin Syed Abdullah
 
-- Deployed: Pending.
+- Deployed: [Work-in-progress demo](https://dbs-react-microfrontend-assessment.vercel.app/)
 - Status: Work in progress — basic dashboard, search and Retry implemented;
   transfers, themes and final accessibility/responsive verification pending.
 - Docs: [Original instructions](docs/assessment/README.original.md) ·
@@ -16,7 +16,7 @@ npm run dev
 ```
 
 Open the Vite URL, normally `http://localhost:5173`.
-The starter currently displays `Mock API: connected`.
+The app displays Ava's dashboard using the supplied browser-based mock API.
 
 ## Project structure
 
@@ -38,14 +38,26 @@ Feature structure is pending discussion.
 - Use `npm ci` to install exact lockfile versions without changing the lockfile.
 - Preserve the original README before replacing it.
 
-Application architecture decisions are pending.
+- Keep API data in TanStack Query and search text in local React state.
+  Derive deposit totals and filtered transactions instead of storing copies.
+- Use the supplied design tokens for the initial responsive layout.
+- Selected Node 22.x in Vercel to match the documented environment. A new
+  deployment is required to apply the setting to production.
+- Public access is required for assessment reviewers. Vercel Authentication was
+  initially enabled for all deployments; disabling it and verifying signed-out
+  access are part of the deployment checklist.
+
+Feature extraction and transfer-form structure remain to be decided.
 
 ## Loading, empty and error states
 
 > **Template guidance:** How you handled them, and how to see each one in the
 > deployed app.
 
-Pending implementation; see the [task list](docs/todo.md).
+Basic loading, search no-results and dashboard error/Retry states are implemented
+(D6/D7). The Retry test overrides the accounts response once with HTTP 500, then
+checks recovery through the UI. Skeletons and genuine empty-data handling remain
+pending; see the [task list](docs/todo.md).
 
 ## Tests
 
@@ -54,6 +66,8 @@ Pending implementation; see the [task list](docs/todo.md).
 User ran `npm run check` successfully on 18 November: lint, TypeScript and four
 tests passed, including dashboard failure and Retry recovery. Later layout changes
 require final verification.
+The subsequent local production build passed. The initial Vercel production
+deployment also reached Ready; deployed refresh verification remains unresolved.
 Required behavioural tests are listed in the [task list](docs/todo.md).
 
 ```sh
@@ -69,8 +83,10 @@ npm run build
 - ChatGPT (Ace): requirements analysis, 42 School-inspired learning approach,
   implementation/verification planning, and context handoff; no application code
   implementation or modification.
-- Codex: environment checks, command explanations, troubleshooting, and documentation.
-  I ran setup commands and confirmed the mock API connection.
+- Codex: incremental React/TypeScript examples, behavioural tests, CSS based on
+  supplied tokens, explanations, code review, documentation and deployment
+  troubleshooting. I applied examples and inspected API requests in DevTools;
+  Codex directly added comments, moved search controls and edited documentation.
 - I questioned `npm ci` versus `npm install` and accepted the recommendation after
   understanding lockfile preservation. This was evaluated advice, not an AI error.
 
@@ -78,14 +94,25 @@ Corrections I requested:
 
 1. Restore the README section guidance that Codex omitted.
 2. Shorten the verbose AI draft, remove duplication, and link to detailed logs.
+3. I changed the proposed verification order to test after the documentation PR
+   triggers redeployment, covering the updated Node configuration.
 
-These are documentation examples; implementation examples will be added as they occur.
+I also requested that I handle subsequent branches, commits, pushes and PRs myself
+after Codex created the first local checkpoint. These are workflow/documentation
+examples; implementation decisions will be recorded as they occur.
 See the [AI use record](docs/development-journal.md#understanding-and-ai-use).
 
 ## Not done / known issues
 
 > **Template guidance:** What you left out or would do with more time.
 
-- Assessment features, mandatory tests, quality checks, and deployment are pending.
+- Transfer flow, validation, themes, skeletons, complete header and final
+  accessibility/responsive verification remain pending.
+- Two required transfer tests remain; dashboard Retry recovery is tested.
+- Initial deployment succeeded. Signed-out public access and refresh still need
+  verification after the settings changes and redeployment.
+- DevTools showed a service-worker passthrough `Failed to fetch` error for the
+  site root, including in InPrivate. Initial dashboard API requests returned 200.
+  The cause is unresolved; the settings changes are not yet a verified fix.
 - Installation reported 12 vulnerabilities (6 moderate, 6 high). Audit review is
   pending; no automatic fixes or dependency upgrades have been applied.
