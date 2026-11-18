@@ -14,6 +14,11 @@ Next: header and loading skeletons, then transfer flow. Transfers, themes and fi
 mobile/accessibility verification remain pending. User ran `npm run check` at
 17:01 SGT: lint, TypeScript and four tests passed, including Retry recovery;
 later layout changes have not yet received the same full check.
+The local production build passed and the user deployed the merged checkpoint to
+[Vercel](https://dbs-react-microfrontend-assessment.vercel.app/).
+Public-access and refresh verification remain open: a service-worker passthrough
+error reproduced in InPrivate. Node 22.x is now selected in project settings;
+redeployment is needed. The user is handling the documentation branch and PR.
 
 Working approach: build one small working increment with brief explanations and
 step headings plus right-side code comments. Verify it, then revisit the completed
@@ -24,13 +29,13 @@ flow to deepen understanding and practise explaining or modifying it independent
 | Clone, install, run starter | Done | Earlier setup journal records the baseline. |
 | Inspect specification and starter | Codex review done | User understanding continues through implementation. |
 | Fetch customer and show greeting | Working and tested | User inspected GET `/api/customer`: 200 and Ava's data. Greeting test passed. |
-| Fetch and display three accounts | Working, user-reported | Saved code includes names, masked numbers, formatted balances and credit label; card layout pending. |
-| Calculate deposit total | Implemented | Saved code derives checking + savings; explicit browser confirmation of SGD 17,120.55 pending. |
-| Update starter test | Passed before account changes | User shared Vitest output: 2 files, 3 tests passed. Not rerun since accounts/total changes. |
+| Fetch and display three accounts | Working, screenshot confirmed | Deployed screenshot shows three cards, masked numbers, balances and credit label; mobile verification pending. |
+| Calculate deposit total | Verified visually | Deployed screenshot shows SGD 17,120.55 and Across 2 deposit accounts. |
+| Dashboard tests | Four tests passed | User ran check at 17:01 SGT; includes greeting and Retry tests plus two formatters. Later layout changes need a full check. |
 | Eight recent transactions (D5) | Implemented | User screenshot confirms GET transactions?limit=8 returned 200; final row-level verification pending. |
 | Transaction search (D6) | Implemented | Filter, count, clear and no-results code present; final browser verification pending. |
-| Complete dashboard states (D1/D7) | Partial | Basic loading/error messages exist; skeletons, Retry and empty states pending. |
-| Header and responsive layout (D2/D4/D8) | Not done | Complete header, account cards, mobile layout and fixed CTA. |
+| Complete dashboard states (D1/D7) | Partial | Retry recovery tested; skeletons and genuine empty-data states pending. |
+| Header and responsive layout (D2/D4/D8) | Partial | Account grid and desktop daily-limit rail implemented; complete header, fixed CTA and mobile verification pending. |
 | Transfer dialog (T1) | Not done | Steps, opening/closing and keyboard focus. |
 | Recipients (T2) | Not done | Saved payees, search and new recipient. |
 | Amount and validation (T3/E3) | Not done | Account, quick amounts, balance/limit checks and note. |
@@ -40,7 +45,7 @@ flow to deepen understanding and practise explaining or modifying it independent
 | Themes (TH1–TH3) | Not done | Light/dark, segment, persistence and accessible combinations. |
 | Required behavioural tests (E4) | One of three passed | Dashboard Retry passed; over-balance and successful transfer tests pending. |
 | Final quality checks (E5/T8/D8) | Not done | Checks/build, console, keyboard, contrast and mobile verification. |
-| Deploy and final README (E6) | Not done | Public URL, deployed flow and submission documentation. |
+| Deploy and final README (E6) | Initial deployment done | Public-access/refresh checks, future deployed transfers and final README pending. |
 | Interview preparation | Ongoing | Revisit flows, decisions and independent code changes. |
 
 These increments do not mean the corresponding complete requirements below have
@@ -62,11 +67,11 @@ passed. Keep full requirement checkboxes open until all their parts are verified
 
 - [ ] D1: Concurrent customer/accounts/latest-eight requests; stable skeleton layout.
 - [ ] D2: Logo, exact greeting, segment/theme switches, and avatar.
-- [ ] D3: Derived deposit-account total and caption, excluding credit card.
+- [x] D3: Derived deposit-account total and caption, excluding credit card.
 - [ ] D4: Three account cards, masked numbers, and credit-card amount due.
 - [ ] D5: Eight newest transactions, signs, formatting, and pending indicators.
 - [ ] D6: Description/category search, count, clearing, and exact no-results state.
-- [ ] D7: Dashboard error and working Retry.
+- [x] D7: Dashboard error and working Retry.
 - [ ] D8: Mobile layout, fixed transfer CTA, margins, and tap targets.
 
 ## Transfer
@@ -104,12 +109,17 @@ passed. Keep full requirement checkboxes open until all their parts are verified
 - [ ] E3: Central form validation without duplicate rules.
 - [ ] E4: Over-balance error prevents a transfer request.
 - [ ] E4: Successful transfer shows success and updates dashboard.
-- [ ] E4: Dashboard failure shows error; Retry successfully loads it.
+- [x] E4: Dashboard failure shows error; Retry successfully loads it.
 - [ ] E5: `npm run check` passes.
 - [ ] E5: `npm run build` passes.
 - [ ] E5: Verify no normal-operation console errors.
 - [ ] E6: Public app works end to end without local server.
 - [ ] Verify deployed mock worker, transfers, mobile layout, and refresh.
+- [x] Initial local production build passes and Vercel deployment reaches Ready.
+- [ ] Save/confirm authentication protection permits public reviewer access.
+- [ ] Redeploy with selected Node 22.x and confirm build version.
+- [ ] Verify public access in a fresh signed-out session.
+- [ ] Investigate/retest service-worker passthrough error on page refresh.
 
 ## Documentation and submission
 
