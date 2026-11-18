@@ -76,3 +76,119 @@ code {
   color: var(--positive);
   font-weight: var(--weight-semibold);
 }
+/* Step 1: Centre the dashboard and use mobile gutters by default. */
+.dashboard {
+  max-width: var(--container); /* Limit content width on large screens. */
+  margin-inline: auto; /* Centre the container horizontally. */
+  padding: var(--space-6) var(--gutter-mobile); /* Use 16px side spacing. */
+  display: grid; /* Stack dashboard sections with consistent gaps. */
+  gap: var(--space-6); /* Separate sections by 24px. */
+}
+
+/* Step 2: Remove default margins so spacing follows our layout. */
+.dashboard h1,
+.dashboard h2,
+.dashboard h3,
+.dashboard p {
+  margin: 0; /* Let grid gaps control spacing. */
+}
+
+/* Step 3: Give the total a prominent brand surface. */
+.balance-panel {
+  display: grid; /* Stack heading, amount and caption. */
+  gap: var(--space-2); /* Separate content by 8px. */
+  padding: var(--space-6); /* Add internal breathing room. */
+  border-radius: var(--radius-lg); /* Use the supplied card radius. */
+  background: linear-gradient(135deg, var(--hero-from), var(--hero-to)); /* Follow the segment tokens. */
+  color: var(--on-hero); /* Use text intended for the hero background. */
+}
+
+.balance-amount {
+  font-size: var(--text-display); /* Scale the main balance with screen width. */
+  font-weight: var(--weight-bold); /* Emphasise the total. */
+  font-variant-numeric: tabular-nums; /* Give digits consistent widths. */
+}
+
+/* Step 4: Stack accounts on mobile. */
+.accounts-section,
+.accounts-grid {
+  display: grid; /* Arrange children with consistent spacing. */
+  gap: var(--space-4); /* Use a 16px gap. */
+}
+
+.account-card,
+.transactions-panel {
+  min-width: 0; /* Allow content to shrink inside grid columns. */
+  padding: var(--space-4); /* Add 16px internal spacing. */
+  border: 1px solid var(--border); /* Outline the surface. */
+  border-radius: var(--radius-md); /* Use the supplied corner radius. */
+  background: var(--surface); /* Follow the active theme. */
+}
+
+.account-card {
+  display: grid; /* Stack each account's details. */
+  gap: var(--space-2); /* Separate the details. */
+  font-variant-numeric: tabular-nums; /* Align numeric characters consistently. */
+}
+
+.transactions-panel {
+  display: grid; /* Separate search controls and transaction rows. */
+  gap: var(--space-4); /* Use consistent vertical spacing. */
+  overflow-wrap: anywhere; /* Let long text wrap within the panel. */
+}
+
+/* Step 5: Keep controls usable and keyboard focus visible. */
+.dashboard input,
+.dashboard button {
+  min-height: var(--tap-target); /* Provide at least a 44px target height. */
+  max-width: 100%; /* Keep controls within their container. */
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring); /* Show keyboard focus. */
+  outline-offset: 2px; /* Separate the outline from the control. */
+}
+
+/* Step 6: Display account cards side by side when space permits. */
+@media (min-width: 640px) {
+  .dashboard {
+    padding-inline: var(--gutter); /* Use desktop side spacing. */
+  }
+
+  .accounts-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Give each account equal width. */
+  }
+}
+/* Step: Style the daily-limit panel. */
+.limit-panel {
+  display: grid; /* Stack the heading and explanatory text. */
+  gap: var(--space-2); /* Separate content by 8px. */
+  padding: var(--space-4); /* Add internal spacing. */
+  border: 1px solid var(--border); /* Outline the panel. */
+  border-radius: var(--radius-md); /* Match the account cards. */
+  background: var(--surface); /* Follow the active theme. */
+  align-self: start; /* Keep the panel at its natural height. */
+}
+
+/* Step: Add the desktop right column at the specified breakpoint. */
+@media (min-width: 1024px) {
+  .dashboard {
+    grid-template-columns: minmax(0, 1fr) 300px; /* Main content and daily-limit rail. */
+  }
+
+  .dashboard > h1 {
+    grid-column: 1 / -1; /* Let the greeting span both columns. */
+  }
+
+  .balance-panel,
+  .accounts-section,
+  .transactions-panel {
+    grid-column: 1; /* Keep dashboard content in the left column. */
+    min-width: 0; /* Allow content to shrink within that column. */
+  }
+
+  .limit-panel {
+    grid-column: 2; /* Position the daily limit in the right column. */
+    grid-row: 2 / 5; /* Start beside the balance and span the content rows. */
+  }
+}

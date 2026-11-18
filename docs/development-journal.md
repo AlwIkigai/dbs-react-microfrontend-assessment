@@ -1,0 +1,94 @@
+# Development journal
+
+Record actions, reasons, evidence, learning, and AI involvement. Distinguish
+planned, implemented, verified, and deployed work.
+
+## 18 November 2026 — Environment and untouched starter
+
+### Objective
+
+Run the original starter before implementing assessment features.
+
+### Actions and decisions
+
+- Moved from ChatGPT preparation to Codex for local setup because Codex can
+  inspect project files and the local environment, helping align Node and
+  dependency versions with the starter's requirements.
+- Chose `C:\DBS` and cloned my assessment repository into
+  `C:\DBS\dbs-react-microfrontend-assessment`; opened it in VS Code.
+- Confirmed README and `.nvmrc` specify Node 22. `package.json` allows `>=20`,
+  but chose the documented environment.
+- Located installed fnm 1.39.0 using its absolute path because it was not on PATH.
+- Initialised fnm in the assessment terminal, installed and selected Node 22.23.5.
+  Verified Node `v22.23.5` and npm `10.9.9` through terminal output.
+- Retained system Node 24.12.0; did not change permanent PATH or PowerShell profile.
+  Terminal setup must be repeated in a new terminal where Node 22 is needed.
+- Ran `npm ci`: 319 packages added; 12 vulnerabilities reported (6 moderate,
+  6 high). Audit details remain unreviewed; no automatic fixes applied.
+- Ran `npm run dev`; observed `Mock API: connected` in the browser.
+- Confirmed `git status --short` was empty before documentation changes.
+- Copied README through the editor to `docs/assessment/README.original.md`.
+  Codex verified identical SHA-256 hashes before replacing the root README.
+- Decided to keep the archived README as an unchanged reference to the original
+  assessment instructions while developing my own submission README.
+- Authorised Codex to draft the submission README, journal, and initial task list.
+
+### Verification evidence
+
+- User-provided terminal output confirmed versions, install, and clean Git status.
+- User reported the browser displayed `Mock API: connected`.
+- Codex independently checked Git status and the archive hashes. Original hash:
+  `2106A5C9B4FAEAE1F866EC61600E872449ABA38471810792D1A3BF2A6C95B4A7`.
+- No browser-console inspection, automated checks, production build, or deployment
+  verification has been performed during this setup session.
+
+### Understanding and AI use
+
+- ChatGPT (Ace) helped analyse the DBS assessment requirements, establish a
+  42 School-inspired incremental learning approach, plan the implementation and
+  verification workflow, and prepare the comprehensive context handoff for Codex.
+  ChatGPT did not implement or modify any assessment application code.
+- I lead development and learn through small practical increments.
+- Codex explained commands and interpreted results. After it performed read-only
+  environment checks, I asked to run commands myself.
+- I raised concerns about affecting other projects; we used terminal-scoped fnm
+  configuration instead of replacing system Node.
+- I questioned `npm ci` versus the documented `npm install`. Codex explained
+  lockfile preservation and failure on manifest mismatch.
+- I created the README archive; Codex verified it and drafted documentation with
+  permission. No assessment feature code was generated or changed.
+- I briefly read the assignment documents; detailed joint review remains pending.
+- Codex initially omitted the README template's section guidance. I requested
+  its restoration to keep the document aligned with the assessment.
+- I found the README draft too wordy and asked Codex to shorten it, remove
+  duplicate setup decisions, and link to detailed records. I also requested
+  that ChatGPT's assistance be disclosed alongside Codex's contributions.
+
+### Next step
+
+Review the brief, wireframes, and contract together, refine the task list, and
+agree on the first small implementation before changing app code.
+
+## 18 November 2026 — Basic dashboard checkpoint
+
+- User implemented customer/accounts/transaction queries, deposit total,
+  transaction search, Retry, account grid and daily-limit panel with Codex guidance.
+- Codex supplied incremental examples and CSS using the assessment tokens;
+  directly added learning comments and moved search controls into their section.
+- User requested step headings and right-side explanations to support learning.
+- User shared successful `npm run check` output at 17:01 SGT: lint, TypeScript,
+  and four tests passed. One mandatory test covers dashboard failure and Retry.
+- Subsequent layout changes require final verification. Transfers, themes,
+  skeletons, header and final accessibility/mobile checks are incomplete.
+- User requested a pushed checkpoint, plans to open the PR manually, and requested
+  an initial deployment. Deployment results will be recorded when known.
+
+## Future entry outline
+
+- Objective and requirement IDs:
+- Prerequisites or concepts:
+- Changes and reasons:
+- Verification and actual result:
+- What I learned or can explain:
+- AI assistance and suggestions changed, rejected, or corrected:
+- Remaining work:
