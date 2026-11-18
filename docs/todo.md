@@ -22,8 +22,9 @@ Extension-generated unload warnings disappeared after permission changes; this i
 separate from the unexplained passthrough error. Node 22.x is selected; deployed
 build-version confirmation is pending. The user handles branches and PRs.
 
-Shared coordination: after this documentation update is merged, create one
-`DBS Assessment Checkpoint` issue using the six fields in the
+Shared coordination: use the existing
+[`DBS Assessment Checkpoint` issue #4](https://github.com/AlwIkigai/dbs-react-microfrontend-assessment/issues/4)
+with the six fields in the
 [workflow guide](git-deployment-workflow.md#shared-checkpoint-issue).
 Repo documents retain the detail; Ace reviews committed evidence independently.
 

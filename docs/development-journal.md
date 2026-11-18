@@ -138,8 +138,10 @@ This is an environment observation, not an additional assessment requirement.
 
 ## 18 November 2026 — Shared checkpoint agreement
 
-- I agreed with Ace and Codex to use one `DBS Assessment Checkpoint` GitHub issue
-  after merging the local documentation update. The issue is not created yet.
+- I agreed with Ace and Codex to use one `DBS Assessment Checkpoint` GitHub issue.
+  The original plan was to create it after merging the documentation update;
+  I subsequently delegated publishing the docs and creating the issue immediately
+  so Ace could read them before I stopped for the evening.
 - Repo documents remain the detailed progress/evidence record; the original DBS
   documents remain the specification. The issue links to them without duplicating
   the journal or task list.
@@ -150,8 +152,11 @@ This is an environment observation, not an additional assessment requirement.
   expose it. Ace's access confirmation was reported in the handoff I supplied.
 - Update the six-field issue only at meaningful milestones and distinguish code
   implementation, automated tests, manual checks and deployment verification.
-- Codex finalized local documentation and supplied the reusable issue structure
-  in the workflow guide. No issue, commit, push or PR was created in this step.
+- Codex published the documentation branch and opened PR #3, then created
+  [checkpoint issue #4](https://github.com/AlwIkigai/dbs-react-microfrontend-assessment/issues/4)
+  with links to that branch. Ace reviewed the checkpoint and linked documents;
+  its PR diff review and application verification were deferred. PR #3 remains
+  open at this entry. Future updates should use issue #4 rather than recreate it.
 
 ## Future entry outline
 

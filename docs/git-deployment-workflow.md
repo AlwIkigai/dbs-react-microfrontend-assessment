@@ -123,8 +123,9 @@ on a new branch first and inspect the diff against updated main before opening a
 
 ## Shared checkpoint issue
 
-After merging the documentation PR, create one issue titled
-`DBS Assessment Checkpoint`. Use these six fields; replace synchronization
+Use the existing [DBS Assessment Checkpoint issue #4](https://github.com/AlwIkigai/dbs-react-microfrontend-assessment/issues/4).
+Do not create another checkpoint issue. The following is a reusable six-field
+update structure; replace synchronization
 placeholders with the actual merged main commit and Singapore date/time.
 
 ```md

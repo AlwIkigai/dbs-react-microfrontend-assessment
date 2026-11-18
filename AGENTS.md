@@ -34,8 +34,9 @@
 
 ## Shared checkpoint
 
-- After the documentation PR merges, the user will create one GitHub issue titled
-  `DBS Assessment Checkpoint`. Do not create it without explicit delegation.
+- Use the existing `DBS Assessment Checkpoint` issue #4:
+  https://github.com/AlwIkigai/dbs-react-microfrontend-assessment/issues/4 .
+  It was created with the user's delegation. Do not create a duplicate.
 - Keep its six fields short: current milestone, implemented, verified,
   outstanding/blockers, next action, last synchronized (date/branch/commit SHA).
 - Link to repo documents and actual verification evidence rather than duplicating
