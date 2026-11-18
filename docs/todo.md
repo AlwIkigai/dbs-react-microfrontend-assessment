@@ -17,8 +17,15 @@ later layout changes have not yet received the same full check.
 The local production build passed and the user deployed the merged checkpoint to
 [Vercel](https://dbs-react-microfrontend-assessment.vercel.app/).
 Public-access and refresh verification remain open: a service-worker passthrough
-error reproduced in InPrivate. Node 22.x is now selected in project settings;
-redeployment is needed. The user is handling the documentation branch and PR.
+error reproduced in InPrivate but was not visible in the latest 18:23:56 SGT check.
+Extension-generated unload warnings disappeared after permission changes; this is
+separate from the unexplained passthrough error. Node 22.x is selected; deployed
+build-version confirmation is pending. The user handles branches and PRs.
+
+Shared coordination: after this documentation update is merged, create one
+`DBS Assessment Checkpoint` issue using the six fields in the
+[workflow guide](git-deployment-workflow.md#shared-checkpoint-issue).
+Repo documents retain the detail; Ace reviews committed evidence independently.
 
 Working approach: build one small working increment with brief explanations and
 step headings plus right-side code comments. Verify it, then revisit the completed

@@ -113,6 +113,46 @@ agree on the first small implementation before changing app code.
 - These settings changes are not a verified fix for the service-worker error.
   Transfers, themes and remaining mandatory work are still outstanding.
 
+## 18 November 2026 — Browser-extension observation
+
+This is an environment observation, not an additional assessment requirement.
+
+- I investigated DevTools `unload` permissions-policy warnings by opening their
+  source scripts. The screenshot locates `content.js` and `msgport.js` under
+  Microsoft Power Automate; I also identified remaining warnings with Microsoft
+  Editor. These were extension scripts rather than banking-app source files.
+- I restricted those extensions' site access to "when clicked" and rechecked.
+  The latest screenshot, with MSW requests logged at 18:23:56 SGT, shows no
+  `unload` violations, MSW enabled on the production domain, and HTTP 200 for
+  customer, accounts and transactions. The dashboard remains rendered.
+- Reviewers with extensions enabled may see extension-generated console output.
+  Diagnose the source before attributing it to the application; no app policy
+  change was made to suppress the warnings.
+- The earlier service-worker passthrough `Failed to fetch` error is a separate
+  observation. It is not visible in the latest check, but its cause is unconfirmed.
+  Record it as not reproduced in that check, not conclusively fixed by changing
+  extension access or deployment settings. Repeated refresh and signed-out
+  public-access verification remain separate checks.
+- Codex helped interpret the DevTools evidence and document the distinction;
+  I inspected sources and changed extension permissions myself.
+
+## 18 November 2026 — Shared checkpoint agreement
+
+- I agreed with Ace and Codex to use one `DBS Assessment Checkpoint` GitHub issue
+  after merging the local documentation update. The issue is not created yet.
+- Repo documents remain the detailed progress/evidence record; the original DBS
+  documents remain the specification. The issue links to them without duplicating
+  the journal or task list.
+- Codex assists with local implementation, explanations, verification and approved
+  documentation edits. I control Git commands, PRs and deployment unless delegating.
+- Ace independently reviews the issue, committed code and documents against the
+  brief. Uncommitted local work requires a short handoff because GitHub cannot
+  expose it. Ace's access confirmation was reported in the handoff I supplied.
+- Update the six-field issue only at meaningful milestones and distinguish code
+  implementation, automated tests, manual checks and deployment verification.
+- Codex finalized local documentation and supplied the reusable issue structure
+  in the workflow guide. No issue, commit, push or PR was created in this step.
+
 ## Future entry outline
 
 - Objective and requirement IDs:

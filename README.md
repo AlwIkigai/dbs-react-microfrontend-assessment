@@ -4,7 +4,8 @@
 - Status: Work in progress — basic dashboard, search and Retry implemented;
   transfers, themes and final accessibility/responsive verification pending.
 - Docs: [Original instructions](docs/assessment/README.original.md) ·
-  [Task list](docs/todo.md) · [Development journal](docs/development-journal.md).
+  [Task list](docs/todo.md) · [Development journal](docs/development-journal.md) ·
+  [Git/deployment practice](docs/git-deployment-workflow.md).
 
 ## Run locally
 
@@ -87,6 +88,15 @@ npm run build
   supplied tokens, explanations, code review, documentation and deployment
   troubleshooting. I applied examples and inspected API requests in DevTools;
   Codex directly added comments, moved search controls and edited documentation.
+- Workflow: I began with ChatGPT (Ace) for requirements and learning planning,
+  then moved to Codex for direct local repository inspection, targeted edits,
+  command execution and debugging. I used a dedicated `C:\DBS` workspace and
+  cloned the repository into `C:\DBS\dbs-react-microfrontend-assessment` so the
+  assistance could work against the actual starter and saved files. I implement
+  small increments, inspect behaviour in the browser and run checks, then revisit
+  the code to practise explaining and modifying it independently. Repo documents
+  preserve progress between sessions; I handle subsequent Git/PR/deployment steps
+  myself unless I explicitly request execution.
 - I questioned `npm ci` versus `npm install` and accepted the recommendation after
   understanding lockfile preservation. This was evaluated advice, not an AI error.
 
@@ -113,6 +123,8 @@ See the [AI use record](docs/development-journal.md#understanding-and-ai-use).
   verification after the settings changes and redeployment.
 - DevTools showed a service-worker passthrough `Failed to fetch` error for the
   site root, including in InPrivate. Initial dashboard API requests returned 200.
-  The cause is unresolved; the settings changes are not yet a verified fix.
+  The error was not reproduced in the latest screenshot; its cause is unconfirmed.
+  Separate extension-generated warnings were identified and are documented in
+  the journal. Repeated refresh verification remains pending.
 - Installation reported 12 vulnerabilities (6 moderate, 6 high). Audit review is
   pending; no automatic fixes or dependency upgrades have been applied.
