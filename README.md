@@ -7,6 +7,8 @@
 
 ## Project structure
 
+> **Template guidance:** Folders and what each is responsible for.
+
 | Where to look | What it does |
 | --- | --- |
 | `src/App.tsx` | Puts the dashboard together. It loads the data, works out the total, filters transactions and opens the transfer dialog. |
@@ -18,6 +20,8 @@
 | `brief/`, `wireframes/` and `docs/` | Contain the assignment references and the checklist linking requirements to code. |
 
 ## Decisions and trade-offs
+
+> **Template guidance:** Server state vs UI state, forms and validation, theming, anything you chose deliberately, and what you'd change.
 
 ### Dashboard data
 
@@ -43,12 +47,16 @@
 
 ## Loading, empty and error states
 
+> **Template guidance:** How you handled them, and how to see each one in the deployed app.
+
 - **Loading.** Reload the app or throttle the connection in DevTools to see the dashboard skeleton while requests settle.
 - **Search with no matches.** Search for `zzzzz`, then use **Clear search** to restore the list.
 - **Empty API data and dashboard errors.** The supplied mock supports `?scenario=empty` on list requests and `?scenario=error` on GET requests. Use a temporary request override for the corresponding dashboard request. Adding the parameter to the page URL alone leaves the dashboard requests unchanged. The Retry test demonstrates a one-time accounts failure and recovery. [API test hooks](brief/api-contract.md#test-and-demo-hooks)
 - **Transfer failure.** On the mock app, submit a valid transfer with `#fail` in the note. Review stays open with the transfer details and error message. Go back, remove the marker, and confirm again to exercise recovery.
 
 ## Tests
+
+> **Template guidance:** What they cover and why you picked those cases.
 
 ```sh
 npm run check
@@ -61,6 +69,8 @@ The [dashboard tests](src/App.test.tsx) cover greeting, failed load and Retry, o
 
 ## AI use
 
+> **Template guidance:** Which tools, and what for. Name two or three places where you changed, rejected or fixed what the AI produced, and why.
+
 I used ChatGPT to work through the assignment brief and plan the work. I used Codex for code examples, explanations, reviews, testing help and documentation.
 
 Two examples of changes I made while working with AI:
@@ -69,6 +79,8 @@ Two examples of changes I made while working with AI:
 - **Transfer test.** Codex helped diagnose why the test found several **New transfer** buttons. Earlier tests had left copies of the dashboard on the page. We added cleanup between tests, and all six tests passed. The saved-payee error test was added later, bringing the total to seven.
 
 ## Not done / known issues
+
+> **Template guidance:** What you left out or would do with more time.
 
 - **Dashboard load error.** The dashboard failed once in Edge InPrivate and recovered after a normal reload. Both transfer flows and a dashboard refresh worked in a later production test. The cause is unknown.
 - **Missing tab icon.** The browser requests `/favicon.ico` and receives a 404.
