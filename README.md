@@ -1,130 +1,57 @@
 # Meridian Banking — Syed Ahmad Alwi Bin Syed Abdullah
 
-- Deployed: [Work-in-progress demo](https://dbs-react-microfrontend-assessment.vercel.app/)
-- Status: Work in progress — basic dashboard, search and Retry implemented;
-  transfers, themes and final accessibility/responsive verification pending.
-- Docs: [Original instructions](docs/assessment/README.original.md) ·
-  [Task list](docs/todo.md) · [Development journal](docs/development-journal.md) ·
-  [Git/deployment practice](docs/git-deployment-workflow.md).
-
-## Run locally
-
-Use Node 22 ([`.nvmrc`](.nvmrc)); verified with Node 22.23.5 and npm 10.9.9.
-
-```sh
-npm ci
-npm run dev
-```
-
-Open the Vite URL, normally `http://localhost:5173`.
-The app displays Ava's dashboard using the supplied browser-based mock API.
+- Live app: [Meridian Banking](https://dbs-react-microfrontend-assessment.vercel.app/)
+- Run locally with Node 22: `npm ci`, then `npm run dev`
+- References: [Assignment](docs/assessment/README.original.md) · [Candidate brief](brief/candidate-brief.md) · [Requirement-to-code checklist](docs/todo.md)
 
 ## Project structure
 
-> **Template guidance:** Folders and what each is responsible for.
-
-- `src/`: application, typed API client, formatting helpers, mocks, and test setup.
-- `mock-api/`: supplied Node mock server.
-- `brief/` and `wireframes/`: official specification, API contract, tokens, and layouts.
-- `docs/`: original README, progress journal, and task list.
-
-Feature structure is pending discussion.
+| Path | Responsibility |
+| --- | --- |
+| `src/App.tsx` | Dashboard queries, account totals, transaction search and opening the transfer dialog |
+| `src/components/` | Header and theme controls, dashboard loading skeleton, and three-step transfer dialog |
+| `src/api/` and `src/lib/` | Typed API client, shared SGD and Singapore-date formatting, and transfer validation |
+| `src/mocks/` and `mock-api/` | Supplied MSW integration, handlers and seed data |
+| `src/test/` and `*.test.ts(x)` | Shared test setup and behavioural and formatter tests |
+| `brief/`, `wireframes/` and `docs/` | Assessment references, verification checklist and development journal |
 
 ## Decisions and trade-offs
 
-> **Template guidance:** Server state vs UI state, forms and validation, theming,
-> anything you chose deliberately, and what you'd change.
-
-- Select Node 22 through fnm in the assessment terminal; retain system Node 24.
-- Use `npm ci` to install exact lockfile versions without changing the lockfile.
-- Preserve the original README before replacing it.
-
-- Keep API data in TanStack Query and search text in local React state.
-  Derive deposit totals and filtered transactions instead of storing copies.
-- Use the supplied design tokens for the initial responsive layout.
-- Selected Node 22.x in Vercel to match the documented environment. A new
-  deployment is required to apply the setting to production.
-- Public access is required for assessment reviewers. Vercel Authentication was
-  initially enabled for all deployments; disabling it and verifying signed-out
-  access are part of the deployment checklist.
-
-Feature extraction and transfer-form structure remain to be decided.
+- **State.** TanStack Query owns API data and request state. React state holds interaction choices such as search text and the current transfer step. The deposit total and daily allowance are calculated from the response. After a successful transfer, invalidating the customer, accounts and transactions queries refreshes all three dashboard values. That costs three reads and keeps the mock API authoritative.
+- **Forms.** React Hook Form uses Zod schemas for validation on blur and submit. Review and Back preserve entered values. A native dialog handles modal behaviour, with explicit focus for the amount, review and success headings. The confirm action uses a ref lock and a disabled pending button to guard against duplicate submits.
+- **Search.** The dashboard filters the eight loaded transactions by description or category. Matching updates immediately and covers the recent list displayed on the dashboard.
+- **Themes and responsive layout.** The page applies saved theme and segment preferences before first paint, using the system colour preference on first visit. CSS uses the supplied tokens. On mobile, the transfer button stays at the bottom and extra dashboard padding lets the last panel scroll clear of it. I measured the account and amount controls at 44 CSS px in Chrome DevTools at a 360 px viewport.
 
 ## Loading, empty and error states
 
-> **Template guidance:** How you handled them, and how to see each one in the
-> deployed app.
-
-Basic loading, search no-results and dashboard error/Retry states are implemented
-(D6/D7). The Retry test overrides the accounts response once with HTTP 500, then
-checks recovery through the UI. Skeletons and genuine empty-data handling remain
-pending; see the [task list](docs/todo.md).
+- **Loading.** Reload the app or throttle the connection in DevTools to see the dashboard skeleton while requests settle.
+- **Search with no matches.** Search for `zzzzz`, then use **Clear search** to restore the list.
+- **Empty API data and dashboard errors.** The supplied mock supports `?scenario=empty` on list requests and `?scenario=error` on GET requests. Use a temporary request override for the corresponding dashboard request. Adding the parameter to the page URL alone leaves the dashboard requests unchanged. The Retry test demonstrates a one-time accounts failure and recovery. [API test hooks](brief/api-contract.md#test-and-demo-hooks)
+- **Transfer failure.** On the mock app, submit a valid transfer with `#fail` in the note. Review stays open with the transfer details and error message. Go back, remove the marker, and confirm again to exercise recovery.
 
 ## Tests
-
-> **Template guidance:** What they cover and why you picked those cases.
-
-User ran `npm run check` successfully on 18 November: lint, TypeScript and four
-tests passed, including dashboard failure and Retry recovery. Later layout changes
-require final verification.
-The subsequent local production build passed. The initial Vercel production
-deployment also reached Ready; deployed refresh verification remains unresolved.
-Required behavioural tests are listed in the [task list](docs/todo.md).
 
 ```sh
 npm run check
 npm run build
 ```
 
+On 20 November 2026, lint, TypeScript, all seven tests, and the production build passed on Node 22.23.5. The production build includes the MSW service worker.
+
+The [dashboard tests](src/App.test.tsx) cover greeting, failed load and Retry, over-balance rejection without a POST, successful transfer with balance/transaction/limit updates, and the saved-payee API error on Review. The [formatter tests](src/lib/format.test.ts) check SGD formatting and Singapore-time dates. These cases exercise the three behaviours required by the brief and the additional saved-recipient failure path.
+
 ## AI use
 
-> **Template guidance:** Which tools, and what for. Name two or three places where
-> you changed, rejected or fixed what the AI produced, and why.
+I used ChatGPT (Ace) for requirements analysis and planning, and Codex for incremental code examples, explanations, review, verification and documentation. I applied changes in small steps, ran checks, and inspected behaviour in the browser. Examples of changes I made to AI-assisted work:
 
-- ChatGPT (Ace): requirements analysis, 42 School-inspired learning approach,
-  implementation/verification planning, and context handoff; no application code
-  implementation or modification.
-- Codex: incremental React/TypeScript examples, behavioural tests, CSS based on
-  supplied tokens, explanations, code review, documentation and deployment
-  troubleshooting. I applied examples and inspected API requests in DevTools;
-  Codex directly added comments, moved search controls and edited documentation.
-- Workflow: I began with ChatGPT (Ace) for requirements and learning planning,
-  then moved to Codex for direct local repository inspection, targeted edits,
-  command execution and debugging. I used a dedicated `C:\DBS` workspace and
-  cloned the repository into `C:\DBS\dbs-react-microfrontend-assessment` so the
-  assistance could work against the actual starter and saved files. I implement
-  small increments, inspect behaviour in the browser and run checks, then revisit
-  the code to practise explaining and modifying it independently. Repo documents
-  preserve progress between sessions; I handle subsequent Git/PR/deployment steps
-  myself unless I explicitly request execution.
-- I questioned `npm ci` versus `npm install` and accepted the recommendation after
-  understanding lockfile preservation. This was evaluated advice, not an AI error.
+1. I split the recipient-search example so local state comes before the query and the derived matching list comes after it. That put the filter after the data it reads.
+2. The first full run of the successful-transfer test found multiple **New transfer** buttons because earlier tests left their rendered apps mounted. I added explicit React Testing Library cleanup to the existing test setup. The full suite then passed.
+3. I changed the deployment verification order so I would test the production URL after the merge triggered a new build. That ties the smoke test to the revision and Node configuration being submitted.
 
-Corrections I requested:
-
-1. Restore the README section guidance that Codex omitted.
-2. Shorten the verbose AI draft, remove duplication, and link to detailed logs.
-3. I changed the proposed verification order to test after the documentation PR
-   triggers redeployment, covering the updated Node configuration.
-
-I also requested that I handle subsequent branches, commits, pushes and PRs myself
-after Codex created the first local checkpoint. These are workflow/documentation
-examples; implementation decisions will be recorded as they occur.
-See the [AI use record](docs/development-journal.md#understanding-and-ai-use).
+See the [development journal](docs/development-journal.md) for the working notes and browser evidence.
 
 ## Not done / known issues
 
-> **Template guidance:** What you left out or would do with more time.
-
-- Transfer flow, validation, themes, skeletons, complete header and final
-  accessibility/responsive verification remain pending.
-- Two required transfer tests remain; dashboard Retry recovery is tested.
-- Initial deployment succeeded. Signed-out public access and refresh still need
-  verification after the settings changes and redeployment.
-- DevTools showed a service-worker passthrough `Failed to fetch` error for the
-  site root, including in InPrivate. Initial dashboard API requests returned 200.
-  The error was not reproduced in the latest screenshot; its cause is unconfirmed.
-  Separate extension-generated warnings were identified and are documented in
-  the journal. Repeated refresh verification remains pending.
-- Installation reported 12 vulnerabilities (6 moderate, 6 high). Audit review is
-  pending; no automatic fixes or dependency upgrades have been applied.
+- Exact loading-to-loaded layout alignment and a full AA contrast and keyboard pass across all four theme/segment combinations remain open.
+- The amount and new-recipient API field error mappings still need targeted response-override verification.
+- The latest production revision still needs signed-out verification, including refresh and both transfer modes. The mock data resets on refresh by design. [Remaining checks](docs/todo.md#current-checklist--20-november-2026)
