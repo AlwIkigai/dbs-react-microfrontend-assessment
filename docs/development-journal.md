@@ -158,6 +158,60 @@ This is an environment observation, not an additional assessment requirement.
   its PR diff review and application verification were deferred. PR #3 remains
   open at this entry. Future updates should use issue #4 rather than recreate it.
 
+## 19 November 2026 — Interim requirements audit
+
+- User requested an honest review against the original brief before final work.
+  Codex inspected the current local branch `feat/dashboard-header`, including
+  uncommitted components/schema, original requirements, CSS and existing tests.
+- No application code was changed. Documentation was updated with findings.
+- Lint/typecheck passed on Node 22.23.5. Initial test execution hit sandbox EPERM
+  during a temporary-file rename. With TEMP/TMP redirected to a writable folder
+  outside the repo, all four existing tests passed. The two required transfer
+  behaviour tests are still missing.
+- Production build passed, including two Zod dependency comment-annotation
+  warnings; no dependency edits were made.
+- Browser plugin skill was unavailable. Codex used an existing cached Playwright
+  installation and installed Edge, with no dependency installation. Sandbox
+  prevented Edge startup; approved execution allowed the local browser audit.
+- Tested flow: local dashboard -> Jamie -> Amount -> over-balance validation ->
+  corrected amount -> Review -> Confirm -> success -> refreshed dashboard.
+  SGD 50 transfer produced total SGD 17,070.55 and daily remaining SGD 4,950.00.
+  Page title/URL matched, content rendered, no framework overlay appeared, and no
+  JavaScript pageerror events occurred on this tested path.
+- After a validation error cleared, the first Continue click did not advance;
+  a second did. Cause is not conclusively established; stabilize layout and retest.
+- At desktop 1280x900 and mobile 390x844/360x844, dashboard document width matched
+  the viewport. At 360px the dialog also had no internal horizontal overflow.
+  This does not verify every state or theme.
+- Concrete gaps: static mobile CTA; 25px sender select/30px inputs; invalid-field
+  focus not restored to amount; step changes leave focus on BODY; incomplete
+  skeleton geometry; plain Pending text rather than chip; incomplete genuine empty
+  states and unmapped API payeeId field error. AA contrast remains unmeasured.
+- Screenshots, audit scripts and scratch browser profiles are in C:\DBS\.audit-temp,
+  outside the repository. The original user browser/session was not controlled.
+- Prioritized follow-up is in docs/todo.md under the latest requirements audit.
+  Deployed latest flows, public access and Node version were not verified here.
+
+## 20 November 2026 — Mobile design verification (D8)
+
+- This felt like taking a Figma design into code for Runyx. For Meridian, I used
+  the brief and wireframe as the design reference, applied the supplied touch
+  target token in CSS, and checked the rendered controls in Chrome DevTools.
+- At a 360 CSS px viewport, DevTools measured both the From account dropdown
+  and the Amount (SGD) field at 44 CSS px tall, including their borders.
+
+## 20 November 2026 — Git staging and line endings
+
+- I checked that I was on `feat/dashboard-header` before staging. I learned
+  that `git diff --check` checks unstaged changes, while
+  `git diff --cached --check` checks the version staged for the PR.
+- Git displayed `^M` in whitespace warnings. LF ends a line with a line feed
+  (`\n`). CRLF adds a carriage return (`\r\n`), and `^M` is Git's display
+  for that carriage return in this diff.
+- Codex normalized the README and four new source files to LF while preserving
+  their text. The unstaged check then passed for the README. The normalized
+  source files need to be staged again before repeating the staged check.
+
 ## Future entry outline
 
 - Objective and requirement IDs:

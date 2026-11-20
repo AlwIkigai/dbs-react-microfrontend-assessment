@@ -1,13 +1,43 @@
 <!doctype html>
 <html lang="en" data-theme="light" data-segment="retail">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f4f6fa" />
-    <title>Meridian Banking</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Step: Apply preferences before the first page paint.
+    try {
+      const savedTheme = localStorage.getItem('meridian-theme');
+      const savedSegment = localStorage.getItem('meridian-segment');
+
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+
+      document.documentElement.dataset.theme =
+        savedTheme === 'light' || savedTheme === 'dark'
+          ? savedTheme
+          : systemTheme;
+
+      document.documentElement.dataset.segment =
+        savedSegment === 'premium' ? 'premium' : 'retail';
+    } catch {
+      // Storage may be unavailable; still respect the system theme.
+      document.documentElement.dataset.theme =
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light';
+
+      document.documentElement.dataset.segment = 'retail';
+    }
+  </script>
+  <meta name="theme-color" content="#f4f6fa" />
+  <title>Meridian Banking</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

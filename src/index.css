@@ -76,13 +76,19 @@ code {
   color: var(--positive);
   font-weight: var(--weight-semibold);
 }
+
 /* Step 1: Centre the dashboard and use mobile gutters by default. */
 .dashboard {
-  max-width: var(--container); /* Limit content width on large screens. */
-  margin-inline: auto; /* Centre the container horizontally. */
-  padding: var(--space-6) var(--gutter-mobile); /* Use 16px side spacing. */
-  display: grid; /* Stack dashboard sections with consistent gaps. */
-  gap: var(--space-6); /* Separate sections by 24px. */
+  max-width: var(--container);
+  /* Limit content width on large screens. */
+  margin-inline: auto;
+  /* Centre the container horizontally. */
+  padding: var(--space-6) var(--gutter-mobile);
+  /* Use 16px side spacing. */
+  display: grid;
+  /* Stack dashboard sections with consistent gaps. */
+  gap: var(--space-6);
+  /* Separate sections by 24px. */
 }
 
 /* Step 2: Remove default margins so spacing follows our layout. */
@@ -90,105 +96,470 @@ code {
 .dashboard h2,
 .dashboard h3,
 .dashboard p {
-  margin: 0; /* Let grid gaps control spacing. */
+  margin: 0;
+  /* Let grid gaps control spacing. */
 }
 
 /* Step 3: Give the total a prominent brand surface. */
 .balance-panel {
-  display: grid; /* Stack heading, amount and caption. */
-  gap: var(--space-2); /* Separate content by 8px. */
-  padding: var(--space-6); /* Add internal breathing room. */
-  border-radius: var(--radius-lg); /* Use the supplied card radius. */
-  background: linear-gradient(135deg, var(--hero-from), var(--hero-to)); /* Follow the segment tokens. */
-  color: var(--on-hero); /* Use text intended for the hero background. */
+  display: grid;
+  /* Stack heading, amount and caption. */
+  gap: var(--space-2);
+  /* Separate content by 8px. */
+  padding: var(--space-6);
+  /* Add internal breathing room. */
+  border-radius: var(--radius-lg);
+  /* Use the supplied card radius. */
+  background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
+  /* Follow the segment tokens. */
+  color: var(--on-hero);
+  /* Use text intended for the hero background. */
 }
 
 .balance-amount {
-  font-size: var(--text-display); /* Scale the main balance with screen width. */
-  font-weight: var(--weight-bold); /* Emphasise the total. */
-  font-variant-numeric: tabular-nums; /* Give digits consistent widths. */
+  font-size: var(--text-display);
+  /* Scale the main balance with screen width. */
+  font-weight: var(--weight-bold);
+  /* Emphasise the total. */
+  font-variant-numeric: tabular-nums;
+  /* Give digits consistent widths. */
 }
 
 /* Step 4: Stack accounts on mobile. */
 .accounts-section,
 .accounts-grid {
-  display: grid; /* Arrange children with consistent spacing. */
-  gap: var(--space-4); /* Use a 16px gap. */
+  display: grid;
+  /* Arrange children with consistent spacing. */
+  gap: var(--space-4);
+  /* Use a 16px gap. */
 }
 
 .account-card,
 .transactions-panel {
-  min-width: 0; /* Allow content to shrink inside grid columns. */
-  padding: var(--space-4); /* Add 16px internal spacing. */
-  border: 1px solid var(--border); /* Outline the surface. */
-  border-radius: var(--radius-md); /* Use the supplied corner radius. */
-  background: var(--surface); /* Follow the active theme. */
+  min-width: 0;
+  /* Allow content to shrink inside grid columns. */
+  padding: var(--space-4);
+  /* Add 16px internal spacing. */
+  border: 1px solid var(--border);
+  /* Outline the surface. */
+  border-radius: var(--radius-md);
+  /* Use the supplied corner radius. */
+  background: var(--surface);
+  /* Follow the active theme. */
 }
 
 .account-card {
-  display: grid; /* Stack each account's details. */
-  gap: var(--space-2); /* Separate the details. */
-  font-variant-numeric: tabular-nums; /* Align numeric characters consistently. */
+  display: grid;
+  /* Stack each account's details. */
+  gap: var(--space-2);
+  /* Separate the details. */
+  font-variant-numeric: tabular-nums;
+  /* Align numeric characters consistently. */
 }
 
 .transactions-panel {
-  display: grid; /* Separate search controls and transaction rows. */
-  gap: var(--space-4); /* Use consistent vertical spacing. */
-  overflow-wrap: anywhere; /* Let long text wrap within the panel. */
+  display: grid;
+  /* Separate search controls and transaction rows. */
+  gap: var(--space-4);
+  /* Use consistent vertical spacing. */
+  overflow-wrap: anywhere;
+  /* Let long text wrap within the panel. */
 }
 
 /* Step 5: Keep controls usable and keyboard focus visible. */
 .dashboard input,
 .dashboard button {
-  min-height: var(--tap-target); /* Provide at least a 44px target height. */
-  max-width: 100%; /* Keep controls within their container. */
+  min-height: var(--tap-target);
+  /* Provide at least a 44px target height. */
+  max-width: 100%;
+  /* Keep controls within their container. */
 }
 
 :focus-visible {
-  outline: 2px solid var(--focus-ring); /* Show keyboard focus. */
-  outline-offset: 2px; /* Separate the outline from the control. */
+  outline: 2px solid var(--focus-ring);
+  /* Show keyboard focus. */
+  outline-offset: 2px;
+  /* Separate the outline from the control. */
 }
 
 /* Step 6: Display account cards side by side when space permits. */
 @media (min-width: 640px) {
   .dashboard {
-    padding-inline: var(--gutter); /* Use desktop side spacing. */
+    padding-inline: var(--gutter);
+    /* Use desktop side spacing. */
   }
 
   .accounts-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Give each account equal width. */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* Give each account equal width. */
   }
 }
+
 /* Step: Style the daily-limit panel. */
 .limit-panel {
-  display: grid; /* Stack the heading and explanatory text. */
-  gap: var(--space-2); /* Separate content by 8px. */
-  padding: var(--space-4); /* Add internal spacing. */
-  border: 1px solid var(--border); /* Outline the panel. */
-  border-radius: var(--radius-md); /* Match the account cards. */
-  background: var(--surface); /* Follow the active theme. */
-  align-self: start; /* Keep the panel at its natural height. */
+  display: grid;
+  /* Stack the heading and explanatory text. */
+  gap: var(--space-2);
+  /* Separate content by 8px. */
+  padding: var(--space-4);
+  /* Add internal spacing. */
+  border: 1px solid var(--border);
+  /* Outline the panel. */
+  border-radius: var(--radius-md);
+  /* Match the account cards. */
+  background: var(--surface);
+  /* Follow the active theme. */
+  align-self: start;
+  /* Keep the panel at its natural height. */
 }
 
 /* Step: Add the desktop right column at the specified breakpoint. */
 @media (min-width: 1024px) {
   .dashboard {
-    grid-template-columns: minmax(0, 1fr) 300px; /* Main content and daily-limit rail. */
+    grid-template-columns: minmax(0, 1fr) 300px;
+    /* Main content and daily-limit rail. */
   }
 
-  .dashboard > h1 {
-    grid-column: 1 / -1; /* Let the greeting span both columns. */
+  .dashboard>h1 {
+    grid-column: 1 / -1;
+    /* Let the greeting span both columns. */
   }
 
   .balance-panel,
   .accounts-section,
   .transactions-panel {
-    grid-column: 1; /* Keep dashboard content in the left column. */
-    min-width: 0; /* Allow content to shrink within that column. */
+    grid-column: 1;
+    /* Keep dashboard content in the left column. */
+    min-width: 0;
+    /* Allow content to shrink within that column. */
   }
 
   .limit-panel {
-    grid-column: 2; /* Position the daily limit in the right column. */
-    grid-row: 2 / 5; /* Start beside the balance and span the content rows. */
+    grid-column: 2;
+    /* Position the daily limit in the right column. */
+    grid-row: 2 / 5;
+    /* Start beside the balance and span the content rows. */
   }
+}
+
+/* Step: Style the header using supplied tokens. */
+.app-header {
+  background: var(--surface);
+  /* Follow the active theme. */
+  border-bottom: 1px solid var(--border);
+  /* Separate header from content. */
+}
+
+.header-content {
+  max-width: var(--container);
+  /* Match the dashboard width. */
+  min-height: var(--header-height);
+  /* Use the supplied header height. */
+  margin-inline: auto;
+  /* Centre the header content. */
+  padding: var(--space-2) var(--gutter-mobile);
+  /* Allow padding on mobile. */
+  display: flex;
+  /* Arrange brand, navigation and avatar in a row. */
+  align-items: center;
+  /* Align items vertically. */
+  gap: var(--space-4);
+  /* Separate items. */
+}
+
+.brand {
+  display: flex;
+  /* Place the logo beside the name. */
+  align-items: center;
+  /* Centre them vertically. */
+  gap: var(--space-2);
+  /* Separate mark and name. */
+  font-weight: var(--weight-bold);
+  /* Emphasise the brand. */
+}
+
+.brand-mark,
+.avatar {
+  display: grid;
+  /* Centre the text within its shape. */
+  place-items: center;
+  /* Centre horizontally and vertically. */
+  width: var(--tap-target);
+  /* Use the supplied 44px size. */
+  height: var(--tap-target);
+  /* Keep the shape square. */
+  flex-shrink: 0;
+  /* Prevent shrinking on narrow screens. */
+}
+
+.brand-mark {
+  background: var(--brand);
+  /* Use the segment colour. */
+  color: var(--on-brand);
+  /* Use contrasting text. */
+  border-radius: var(--radius-md);
+  /* Round the mark. */
+}
+
+.avatar {
+  margin-left: auto;
+  /* Push the avatar to the right. */
+  border-radius: var(--radius-full);
+  /* Make it circular. */
+  background: var(--surface-muted);
+  /* Distinguish it from the header. */
+  color: var(--text);
+  /* Follow the active theme. */
+}
+
+.header-nav {
+  display: none;
+  /* Hide decorative navigation on small screens. */
+  align-items: center;
+  /* Align navigation items vertically. */
+  gap: var(--space-4);
+  /* Separate navigation items. */
+}
+
+.header-nav button {
+  min-height: var(--tap-target);
+  /* Keep controls a consistent height. */
+  border: 0;
+  /* Remove the default button border. */
+  background: var(--surface);
+  /* Match the header surface. */
+  color: var(--text-muted);
+  /* Indicate unavailable navigation. */
+  cursor: not-allowed;
+  /* Reinforce the disabled state. */
+}
+
+@media (min-width: 1024px) {
+  .header-content {
+    padding-inline: var(--gutter);
+    /* Match desktop dashboard gutters. */
+  }
+
+  .header-nav {
+    display: flex;
+    /* Show navigation when sufficient space is available. */
+  }
+}
+
+/* Step: Draw static loading placeholders using supplied tokens. */
+.skeleton {
+  background: var(--skeleton);
+  /* Follow the active theme. */
+  border-radius: var(--radius-sm);
+  /* Soften placeholder edges. */
+}
+
+.skeleton-heading {
+  width: 60%;
+  /* Approximate a heading's width. */
+  height: var(--space-6);
+  /* Reserve 24px vertically. */
+}
+
+.skeleton-line {
+  width: 75%;
+  /* Approximate a line of text. */
+  height: var(--space-4);
+  /* Reserve 16px vertically. */
+}
+
+.skeleton-balance {
+  width: 80%;
+  /* Reserve most of the balance panel width. */
+  height: var(--space-12);
+  /* Approximate the large amount. */
+}
+
+.skeleton-input {
+  width: 100%;
+  /* Match the search input width. */
+  height: var(--tap-target);
+  /* Reserve the control height. */
+}
+
+.skeleton-transaction {
+  display: grid;
+  /* Stack the transaction placeholders. */
+  gap: var(--space-2);
+  /* Separate text lines. */
+}
+
+/* Step: Use a full-screen transfer sheet on smaller screens. */
+.transfer-dialog {
+  position: fixed;
+  /* Position relative to the viewport. */
+  inset: 0;
+  /* Cover the viewport. */
+  margin: 0;
+  /* Remove the native centring margin on mobile. */
+  width: 100%;
+  /* Fill the screen width. */
+  max-width: none;
+  /* Override the browser's default maximum. */
+  height: 100dvh;
+  /* Follow the visible viewport height. */
+  max-height: 100dvh;
+  /* Override the default height limit. */
+  padding: var(--space-6);
+  /* Space content from the edges. */
+  border: 0;
+  /* Remove the default border. */
+  background: var(--surface);
+  /* Use the theme surface. */
+  color: var(--text);
+  /* Use the theme text colour. */
+  overflow-y: auto;
+  /* Allow scrolling when content is tall. */
+}
+
+.transfer-dialog::backdrop {
+  background: var(--overlay);
+  /* Dim the page behind the dialog. */
+}
+
+.transfer-heading {
+  display: flex;
+  /* Place title and close action in a row. */
+  align-items: center;
+  /* Align them vertically. */
+  justify-content: space-between;
+  /* Push the close action right. */
+  gap: var(--space-4);
+  /* Separate title and button. */
+}
+
+.transfer-dialog button {
+  min-width: var(--tap-target);
+  /* Provide a 44px target width. */
+  min-height: var(--tap-target);
+  /* Provide a 44px target height. */
+}
+
+/* Step: Centre the dialog on desktop. */
+@media (min-width: 1024px) {
+  .transfer-dialog {
+    inset: 0;
+    /* Allow auto margins to centre the dialog. */
+    margin: auto;
+    /* Centre horizontally and vertically. */
+    width: 520px;
+    /* Follow the wireframe width. */
+    max-width: calc(100% - var(--space-8));
+    /* Keep viewport clearance. */
+    height: auto;
+    /* Fit the content. */
+    max-height: calc(100dvh - var(--space-8));
+    /* Keep tall content scrollable. */
+    border-radius: var(--radius-lg);
+    /* Round desktop dialog corners. */
+  }
+}
+
+/* Step: Make recipient labels comfortably clickable. */
+.payee-option {
+  display: flex;
+  /* Put the radio beside recipient details. */
+  align-items: center;
+  /* Align the control and text. */
+  gap: var(--space-2);
+  /* Separate them. */
+  min-height: var(--tap-target);
+  /* Provide a 44px selection target. */
+  padding-block: var(--space-2);
+  /* Separate adjacent options. */
+  cursor: pointer;
+  /* Indicate that the label selects the recipient. */
+}
+
+/* Step: Let header controls wrap on smaller screens. */
+.header-content {
+  flex-wrap: wrap;
+  /* Allow another row instead of page overflow. */
+}
+
+.header-controls {
+  display: flex;
+  /* Arrange segment and theme controls together. */
+  align-items: center;
+  flex-wrap: wrap;
+  /* Wrap within the available width. */
+  gap: var(--space-2);
+}
+
+.header-controls button {
+  min-height: var(--tap-target);
+  /* Provide a 44px target. */
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.header-controls button[aria-pressed="true"] {
+  background: var(--brand);
+  /* Indicate the selected option. */
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+
+@media (max-width: 639px) {
+  .header-controls {
+    order: 1;
+    /* Place controls on the next row. */
+    width: 100%;
+  }
+}
+
+/* Step: Keep New transfer visible on mobile and leave room to scroll past it. */
+@media (width < 640px) {
+  .dashboard:has(> .new-transfer-button) {
+    padding-bottom: calc(var(--tap-target) + var(--space-8) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .new-transfer-button {
+    position: fixed;
+    inset-inline: var(--gutter-mobile);
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+    z-index: 1;
+  }
+}
+
+/* Step: Give transfer fields a 44px minimum touch target. */
+.transfer-dialog input:not([type="radio"]),
+.transfer-dialog select {
+  min-height: var(--tap-target);
+  max-width: 100%;
+}
+/* Step: Mark pending transactions with a compact status chip. */
+.pending-chip {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  border-radius: 999px;
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+/* Step: Keep the loading announcement available to screen readers. */
+.dashboard-loading-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* Step: Use the greeting's text height for its placeholder. */
+.skeleton-greeting {
+  width: fit-content;
+  color: transparent;
+}
+
+/* Step: Give the button placeholder the same minimum height as the button. */
+.dashboard .new-transfer-button {
+  min-height: var(--tap-target);
 }

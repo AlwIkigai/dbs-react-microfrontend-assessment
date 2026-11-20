@@ -8,8 +8,12 @@ import type { AccountsResponse, CustomerResponse, TransactionsResponse } from '.
 import { formatMoney, formatShortDate } from './lib/format' // Shared SGD and Singapore-date formatters.
 // // import type { Health } from './api/types'
 import { useState } from 'react' // Store the search text entered by the user.
+import Header from './components/Header' // Import our header component.
+import DashboardSkeleton from './components/DashboardSkeleton' // Import the skeleton component.
+import TransferDialog from './components/TransferDialog' // Import the transfer dialog component.
 
 export default function App() {
+  const [isTransferDialogOpen, setIsTransferDialogOpen] = useState(false) // Track the transfer dialog state.
 
   // Step 1: Fetch the customer profile.
   const customer = useQuery({ // Store the query result and request state in customer.
@@ -37,7 +41,13 @@ export default function App() {
   // }
   // Step: Wait for all three requests.
   if (customer.isPending || accounts.isPending || transactions.isPending) {
-    return <p role="status">Loading dashboard…</p> // Show loading while any query is pending.
+    // return <p role="status">Loading dashboard…</p> // Show loading while any query is pending.
+    return (
+      <>
+        <Header /> {/* Use the same header during loading and success. */}
+        <DashboardSkeleton /> {/* Show placeholders instead of the loading-only paragraph. */}
+      </>
+    )
   }
 
 
@@ -104,79 +114,105 @@ export default function App() {
   //     ? 'not connected'
   //     : 'connected'
   return (
-    // <main className="starter">
-    <main className="dashboard"> {/* Use the dashboard class for styling. */}
-      {/* Step 7 (D2): Display the greeting. */}
-      <h1>Good evening, {customer.data.customer.firstName}</h1> {/* Read Ava's first name from the response. */}
-      {/* Step 8 (D3): Display the deposit total. */}
-      <section className="balance-panel" aria-labelledby="total-heading"> {/* Use the heading to name this section for assistive technology. */}
-        <h2 id="total-heading">Total available</h2> {/* Identify the total section heading. */}
-        {/* <p>{formatMoney(totalAvailable)}</p> Format the calculated total as SGD. */}
-        <p className="balance-amount">{formatMoney(totalAvailable)}</p> {/* Apply the large balance styling. */}
-        <p>Across {depositAccounts.length} deposit accounts</p> {/* Count the deposit accounts. */}
-      </section>
-      {/* Step 9 (D4): Display every account, including the credit card. */}
-      <section className="accounts-section" aria-labelledby="accounts-heading">
-        <h2 id="accounts-heading">Accounts</h2>
+    <>
+      <Header /> {/* Render the dashboard header. */}
+      <main className="dashboard"> {/* Use the dashboard class for styling. */}
+        {/* Step 7 (D2): Display the greeting. */}
+        <h1>Good evening, {customer.data.customer.firstName}</h1> {/* Read Ava's first name from the response. */}
+        {/* Step 8 (D3): Display the deposit total. */}
+        <button
+          className="new-transfer-button"
+          type="button"
+          onClick={() => setIsTransferDialogOpen(true)}
+        >
+          New transfer
+        </button>
+        <section className="balance-panel" aria-labelledby="total-heading"> {/* Use the heading to name this section for assistive technology. */}
+          <h2 id="total-heading">Total available</h2> {/* Identify the total section heading. */}
+          {/* <p>{formatMoney(totalAvailable)}</p> Format the calculated total as SGD. */}
+          <p className="balance-amount">{formatMoney(totalAvailable)}</p> {/* Apply the large balance styling. */}
+          <p>Across {depositAccounts.length} deposit accounts</p> {/* Count the deposit accounts. */}
+        </section>
+        {/* Step 9 (D4): Display every account, including the credit card. */}
+        <section className="accounts-section" aria-labelledby="accounts-heading">
+          <h2 id="accounts-heading">Accounts</h2>
+          {/* Step: Explain why there are no account cards when the API returns an empty list. */}
+          {accounts.data.accounts.length === 0 && (
+            <p>No accounts to display.</p>
+          )}
+          <div className="accounts-grid"> {/* Arrange accounts in responsive columns. */}
+            {accounts.data.accounts.map((account) => (
+              <article className="account-card" key={account.id}> {/* Style each account as a card. */}
+                <h3>{account.name}</h3>
+                <p>{account.maskedNumber}</p>
+                {account.type === 'credit' && <p>Amount due</p>}
+                <p>{formatMoney(account.balance)}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+        {/* Step: Display recent transactions (D5). */}
+        <section className="transactions-panel" aria-labelledby="transactions-heading"> {/* Connect this section to its heading. */}
+          <h2 id="transactions-heading">Recent transactions</h2> {/* Required section title. */}
+          {/* Step 3: Let the user enter and clear a search. */}
+          <label htmlFor="transaction-search">Search transactions</label> {/* Label the input. */}
+          <input
+            id="transaction-search" // Connect the input to its label.
+            type="search" // Use a search input.
+            placeholder="Search transactions" // Required placeholder.
+            value={search} // Display the current search state.
+            onChange={(event) => setSearch(event.target.value)} // Update state as the user types.
+          />
 
-        <div className="accounts-grid"> {/* Arrange accounts in responsive columns. */}
-          {accounts.data.accounts.map((account) => (
-            <article className="account-card" key={account.id}> {/* Style each account as a card. */}
-              <h3>{account.name}</h3>
-              <p>{account.maskedNumber}</p>
-              {account.type === 'credit' && <p>Amount due</p>}
-              <p>{formatMoney(account.balance)}</p>
+          <p role="status">{filteredTransactions.length} results</p> {/* Announce the matching count. */}
+
+          {search.length > 0 && (
+            <button type="button" onClick={() => setSearch('')}> {/* Reset the search text. */}
+              Clear search
+            </button>
+          )}
+
+          {/* Step: Show an empty state when there are no rows to display. */}
+          {filteredTransactions.length === 0 && (
+            <p>
+              {searchTerm
+                ? 'No transactions match your search.' // The brief's exact message for an active search.
+                : 'No recent transactions yet.'} {/* No rows were loaded and there is no active search. */}
+            </p>
+          )}
+
+
+          {filteredTransactions.map((transaction) => (
+            <article key={transaction.id}> {/* Give each transaction a stable React identity. */}
+              <h3>{transaction.description}</h3> {/* Display the merchant or transfer description. */}
+              <p>
+                {transaction.category} · {formatShortDate(transaction.date)} {/* Show category and Singapore date. */}
+              </p>
+              <p style={{ color: transaction.direction === 'in' ? 'var(--positive)' : 'var(--text)' }}>
+                {transaction.direction === 'in' ? '+' : '-'} {/* Determine the sign from the direction. */}
+                {formatMoney(transaction.amount)} {/* Format the positive API amount as SGD. */}
+              </p>
+              {transaction.status === 'pending' && <span className="pending-chip">Pending</span>} {/* Label pending transactions only. */}
             </article>
           ))}
-        </div>
-      </section>
-      {/* Step: Display recent transactions (D5). */}
-      <section className="transactions-panel" aria-labelledby="transactions-heading"> {/* Connect this section to its heading. */}
-        <h2 id="transactions-heading">Recent transactions</h2> {/* Required section title. */}
-        {/* Step 3: Let the user enter and clear a search. */}
-        <label htmlFor="transaction-search">Search transactions</label> {/* Label the input. */}
-        <input
-          id="transaction-search" // Connect the input to its label.
-          type="search" // Use a search input.
-          placeholder="Search transactions" // Required placeholder.
-          value={search} // Display the current search state.
-          onChange={(event) => setSearch(event.target.value)} // Update state as the user types.
+        </section>
+        {/* Step: Display today's remaining transfer limit. */}
+        <aside className="limit-panel" aria-labelledby="limit-heading">
+          <h2 id="limit-heading">Daily limit</h2> {/* Name this information panel. */}
+          <p>{formatMoney(remainingLimit)} remaining today</p> {/* Display the derived allowance. */}
+          <p>Resets daily. Applies to all transfers.</p> {/* Explain the limit. */}
+        </aside>
+      </main>
+      {isTransferDialogOpen && (
+        // <TransferDialog onClose={() => setIsTransferDialogOpen(false)} /> {/* Render the transfer dialog when open. */}
+        <TransferDialog
+          onClose={() => setIsTransferDialogOpen(false)} // Close through parent state.
+          accounts={depositAccounts} // Pass checking and savings only.
+          remainingLimit={remainingLimit} // Pass the calculated daily allowance.
         />
-
-        <p role="status">{filteredTransactions.length} results</p> {/* Announce the matching count. */}
-
-        {search.length > 0 && (
-          <button type="button" onClick={() => setSearch('')}> {/* Reset the search text. */}
-            Clear search
-          </button>
-        )}
-
-        {filteredTransactions.length === 0 && (
-          <p>No transactions match your search.</p> // Display the required no-results message.
-        )}
-
-
-        {filteredTransactions.map((transaction) => (
-          <article key={transaction.id}> {/* Give each transaction a stable React identity. */}
-            <h3>{transaction.description}</h3> {/* Display the merchant or transfer description. */}
-            <p>
-              {transaction.category} · {formatShortDate(transaction.date)} {/* Show category and Singapore date. */}
-            </p>
-            <p style={{ color: transaction.direction === 'in' ? 'var(--positive)' : 'var(--text)' }}>
-              {transaction.direction === 'in' ? '+' : '-'} {/* Determine the sign from the direction. */}
-              {formatMoney(transaction.amount)} {/* Format the positive API amount as SGD. */}
-            </p>
-            {transaction.status === 'pending' && <p>Pending</p>} {/* Label pending transactions only. */}
-          </article>
-        ))}
-      </section>
-      {/* Step: Display today's remaining transfer limit. */}
-      <aside className="limit-panel" aria-labelledby="limit-heading">
-        <h2 id="limit-heading">Daily limit</h2> {/* Name this information panel. */}
-        <p>{formatMoney(remainingLimit)} remaining today</p> {/* Display the derived allowance. */}
-        <p>Resets daily. Applies to all transfers.</p> {/* Explain the limit. */}
-      </aside>
-    </main>
+        // {/* Render the transfer dialog when open. */}
+      )}
+    </>
   )
   //   <div className="starter">
   //     <header className="starter-header">
