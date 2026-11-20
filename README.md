@@ -2,7 +2,8 @@
 
 - Live app: [Meridian Banking](https://dbs-react-microfrontend-assessment.vercel.app/)
 - Run locally with Node 22: `npm ci`, then `npm run dev`
-- Build environment: `package.json` pins Node to `22.x` to match the assignment and the Vercel project setting.
+- The starter shows `npm install`. I used `npm ci` to install the versions already recorded in `package-lock.json` without updating it.
+- The assignment asks for Node 22. I used Node 22 locally and set `engines.node` to `22.x` so Vercel also builds with Node 22.
 - References: [Assignment](docs/assessment/README.original.md) · [Candidate brief](brief/candidate-brief.md) · [Requirement-to-code checklist](docs/todo.md)
 
 ## Project structure
@@ -85,5 +86,6 @@ Three examples of changes I made while working with AI:
 
 - **Dashboard load error.** The dashboard failed once in Edge InPrivate and recovered after a normal reload. Both transfer flows and a dashboard refresh worked in a later production test. The cause is unknown.
 - **Missing tab icon.** The browser requests `/favicon.ico` and receives a 404.
+- **Install and build warnings.** `npm ci` reported deprecation warnings for `whatwg-encoding` and ESLint 9. The build reported two warnings about comments in Zod. The install and build completed, and all seven tests passed.
 
 See the [verification checklist](docs/todo.md) for browser checks and what remains to verify.
