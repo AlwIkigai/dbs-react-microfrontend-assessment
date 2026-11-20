@@ -7,21 +7,39 @@
 
 ## Project structure
 
-| Path | Responsibility |
+| Where to look | What it does |
 | --- | --- |
-| `src/App.tsx` | Dashboard queries, account totals, transaction search and opening the transfer dialog |
-| `src/components/` | Header and theme controls, dashboard loading skeleton, and three-step transfer dialog |
-| `src/api/` and `src/lib/` | Typed API client, shared SGD and Singapore-date formatting, and transfer validation |
-| `src/mocks/` and `mock-api/` | Supplied MSW integration, handlers and seed data |
-| `src/test/` and `*.test.ts(x)` | Shared test setup and behavioural and formatter tests |
-| `brief/`, `wireframes/` and `docs/` | Assessment references, and verification checklist |
+| `src/App.tsx` | Puts the dashboard together. It loads the data, works out the total, filters transactions and opens the transfer dialog. |
+| `src/components/` | Contains the header and theme controls, the loading placeholders and the transfer dialog. |
+| `src/api/` | Sends API requests and describes the data those requests use. |
+| `src/mocks/` and `mock-api/` | Let the demo run without a backend. MSW intercepts API requests and responds with the supplied mock data. |
+| `src/lib/` | Holds the rules for transfer validation and formats amounts in SGD and dates in Singapore time. |
+| `src/test/` and test files | Set up the test environment and check user flows and formatting. |
+| `brief/`, `wireframes/` and `docs/` | Contain the assignment references and the checklist linking requirements to code. |
 
 ## Decisions and trade-offs
 
-- **State.** TanStack Query owns API data and request state. React state holds interaction choices such as search text and the current transfer step. The deposit total and daily allowance are calculated from the response. After a successful transfer, invalidating the customer, accounts and transactions queries refreshes all three dashboard values. That costs three reads and keeps the mock API authoritative.
-- **Forms.** React Hook Form uses Zod schemas for validation on blur and submit. Review and Back preserve entered values. A native dialog handles modal behaviour, with explicit focus for the amount, review and success headings. The confirm action uses a ref lock and a disabled pending button to guard against duplicate submits.
-- **Search.** The dashboard filters the eight loaded transactions by description or category. Matching updates immediately and covers the recent list displayed on the dashboard.
-- **Themes and responsive layout.** The page applies saved theme and segment preferences before first paint, using the system colour preference on first visit. CSS uses the supplied tokens. On mobile, the transfer button stays at the bottom and extra dashboard padding lets the last panel scroll clear of it. I measured the account and amount controls at 44 CSS px in Chrome DevTools at a 360 px viewport.
+### Dashboard data
+
+- TanStack Query manages data from the API, such as Ava’s accounts and transactions. React state keeps track of what she’s doing, such as what she typed in search and which transfer step she’s on.
+- The app adds the checking and savings balances to calculate the total. It subtracts today’s transfers from the daily limit to calculate what’s left.
+- After a successful transfer, the app fetches customer details for the remaining limit, accounts for the balances, and transactions for the new entry. This adds three requests and keeps the displayed values in sync with the mock API.
+
+### Transfer form
+
+- React Hook Form tracks what Ava enters. Zod checks the rules when she leaves a field or presses **Continue**. Going **Back** keeps her entries.
+- The browser’s built-in dialog handles modal behaviour. The app moves keyboard focus to the Amount, Review and Success headings when they appear.
+- On **Confirm transfer**, an immediate lock blocks repeat clicks. The button is also disabled while the request is pending.
+
+### Transaction search
+
+- Typing a merchant name or a category filters the eight transactions already on the dashboard. Results appear as you type, and the search covers those eight entries.
+
+### Themes and mobile layout
+
+- The app remembers the chosen theme and segment. It applies them before the browser draws the page and uses the system colour preference on the first visit. The colours come from the supplied design tokens.
+- On mobile, **New transfer** stays at the bottom. Extra space lets the last panel scroll above the button.
+- At 360 CSS px, I used DevTools to verify that the account dropdown and amount field were both 44 CSS px tall.
 
 ## Loading, empty and error states
 
@@ -43,16 +61,16 @@ The [dashboard tests](src/App.test.tsx) cover greeting, failed load and Retry, o
 
 ## AI use
 
-I used ChatGPT for requirements analysis and planning, and Codex for incremental code examples, explanations, review, verification and documentation. I applied changes in small steps, ran checks, and inspected behaviour in the browser. Examples of changes I made to AI-assisted work:
+I used ChatGPT to work through the assignment brief and plan the work. I used Codex for code examples, explanations, reviews, testing help and documentation.
 
-1. I split the recipient-search example so local state comes before the query and the derived matching list comes after it. That put the filter after the data it reads.
-2. The first full run of the successful-transfer test found multiple **New transfer** buttons because earlier tests left their rendered apps mounted. I added explicit React Testing Library cleanup to the existing test setup. The full suite then passed.
-3. I changed the deployment verification order so I would test the production URL after the merge triggered a new build. That ties the smoke test to the revision and Node configuration being submitted.
+Two examples of changes I made while working with AI:
 
-See the [verification checklist](docs/todo.md) for the requirement-to-code map and browser evidence.
+- **Recipient search.** I moved the filtering code below the query that loads the recipients. The filter needs that list before it can find matches.
+- **Transfer test.** Codex helped diagnose why the test found several **New transfer** buttons. Earlier tests had left copies of the dashboard on the page. We added cleanup between tests, and all six tests passed. The saved-payee error test was added later, bringing the total to seven.
 
 ## Not done / known issues
 
-- Exact loading-to-loaded layout alignment and a full AA contrast and keyboard pass across all four theme/segment combinations remain open.
-- The amount and new-recipient API field error mappings still need targeted response-override verification.
-- The dashboard intermittently returned API 404s in Edge InPrivate and recovered after a normal reload. A later signed-out production run on Node 22 verified both transfer paths and a successful dashboard refresh. The cause of the earlier failure remains unconfirmed. Mock data resets on reload by design.
+- **Dashboard load error.** The dashboard failed once in Edge InPrivate and recovered after a normal reload. Both transfer flows and a dashboard refresh worked in a later production test. The cause is unknown.
+- **Missing tab icon.** The browser requests `/favicon.ico` and receives a 404.
+
+See the [verification checklist](docs/todo.md) for browser checks and what remains to verify.
