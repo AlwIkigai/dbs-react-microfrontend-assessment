@@ -212,6 +212,17 @@ This is an environment observation, not an additional assessment requirement.
   their text. The unstaged check then passed for the README. The normalized
   source files need to be staged again before repeating the staged check.
 
+## 20 November 2026 — Production Node version
+
+- PR #5 merged into main at `590ad2a`. Vercel marked its production deployment
+  Ready and assigned the main URL. A hard refresh showed the updated app.
+- The build log confirmed the project setting was Node 22.x. The starter's
+  `engines.node` range of `>=20` took precedence and selected Node 26.x.
+  [Vercel's version rules](https://vercel.com/docs/functions/runtimes/node-js/node-js-versions#version-overrides-in-packagejson)
+- Set `engines.node` to `22.x` in the package manifest and matching root lockfile
+  metadata to match the assignment. The next production build still needs
+  verification on Node 22.
+
 ## Future entry outline
 
 - Objective and requirement IDs:

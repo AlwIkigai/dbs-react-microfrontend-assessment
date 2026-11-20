@@ -2,6 +2,7 @@
 
 - Live app: [Meridian Banking](https://dbs-react-microfrontend-assessment.vercel.app/)
 - Run locally with Node 22: `npm ci`, then `npm run dev`
+- Build environment: `package.json` pins Node to `22.x` to match the assignment and the Vercel project setting.
 - References: [Assignment](docs/assessment/README.original.md) · [Candidate brief](brief/candidate-brief.md) · [Requirement-to-code checklist](docs/todo.md)
 
 ## Project structure
@@ -54,4 +55,4 @@ See the [development journal](docs/development-journal.md) for the working notes
 
 - Exact loading-to-loaded layout alignment and a full AA contrast and keyboard pass across all four theme/segment combinations remain open.
 - The amount and new-recipient API field error mappings still need targeted response-override verification.
-- The latest production revision still needs signed-out verification, including refresh and both transfer modes. The mock data resets on refresh by design. [Remaining checks](docs/todo.md#current-checklist--20-november-2026)
+- The PR #5 production build used Node 26 because the previous `>=20` range took precedence over the Vercel setting. Verify Node 22 on the next production build, then check signed-out access, refresh and both transfer modes. The mock data resets on refresh by design. [Remaining checks](docs/todo.md#current-checklist--20-november-2026)
