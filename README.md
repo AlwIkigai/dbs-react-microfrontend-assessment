@@ -14,7 +14,7 @@
 | `src/api/` and `src/lib/` | Typed API client, shared SGD and Singapore-date formatting, and transfer validation |
 | `src/mocks/` and `mock-api/` | Supplied MSW integration, handlers and seed data |
 | `src/test/` and `*.test.ts(x)` | Shared test setup and behavioural and formatter tests |
-| `brief/`, `wireframes/` and `docs/` | Assessment references, verification checklist and development journal |
+| `brief/`, `wireframes/` and `docs/` | Assessment references, and verification checklist |
 
 ## Decisions and trade-offs
 
@@ -43,16 +43,16 @@ The [dashboard tests](src/App.test.tsx) cover greeting, failed load and Retry, o
 
 ## AI use
 
-I used ChatGPT (Ace) for requirements analysis and planning, and Codex for incremental code examples, explanations, review, verification and documentation. I applied changes in small steps, ran checks, and inspected behaviour in the browser. Examples of changes I made to AI-assisted work:
+I used ChatGPT for requirements analysis and planning, and Codex for incremental code examples, explanations, review, verification and documentation. I applied changes in small steps, ran checks, and inspected behaviour in the browser. Examples of changes I made to AI-assisted work:
 
 1. I split the recipient-search example so local state comes before the query and the derived matching list comes after it. That put the filter after the data it reads.
 2. The first full run of the successful-transfer test found multiple **New transfer** buttons because earlier tests left their rendered apps mounted. I added explicit React Testing Library cleanup to the existing test setup. The full suite then passed.
 3. I changed the deployment verification order so I would test the production URL after the merge triggered a new build. That ties the smoke test to the revision and Node configuration being submitted.
 
-See the [development journal](docs/development-journal.md) for the working notes and browser evidence.
+See the [verification checklist](docs/todo.md) for the requirement-to-code map and browser evidence.
 
 ## Not done / known issues
 
 - Exact loading-to-loaded layout alignment and a full AA contrast and keyboard pass across all four theme/segment combinations remain open.
 - The amount and new-recipient API field error mappings still need targeted response-override verification.
-- The PR #5 production build used Node 26 because the previous `>=20` range took precedence over the Vercel setting. Verify Node 22 on the next production build, then check signed-out access, refresh and both transfer modes. The mock data resets on refresh by design. [Remaining checks](docs/todo.md#current-checklist--20-november-2026)
+- The dashboard intermittently returned API 404s in Edge InPrivate and recovered after a normal reload. A later signed-out production run on Node 22 verified both transfer paths and a successful dashboard refresh. The cause of the earlier failure remains unconfirmed. Mock data resets on reload by design.
