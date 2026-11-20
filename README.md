@@ -73,8 +73,9 @@ The [dashboard tests](src/App.test.tsx) cover greeting, failed load and Retry, o
 
 I used ChatGPT to work through the assignment brief and plan the work. I used Codex for code examples, explanations, reviews, testing help and documentation.
 
-Two examples of changes I made while working with AI:
+Three examples of changes I made while working with AI:
 
+- **Documentation.** I found the first README and requirements list hard to read, so I asked Codex to use shorter explanations and link each requirement ID to the brief and the code. I also asked it to keep the original README template guidance.
 - **Recipient search.** I moved the filtering code below the query that loads the recipients. The filter needs that list before it can find matches.
 - **Transfer test.** Codex helped diagnose why the test found several **New transfer** buttons. Earlier tests had left copies of the dashboard on the page. We added cleanup between tests, and all six tests passed. The saved-payee error test was added later, bringing the total to seven.
 
