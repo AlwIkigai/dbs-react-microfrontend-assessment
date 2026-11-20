@@ -50,10 +50,11 @@
 
 > **Template guidance:** How you handled them, and how to see each one in the deployed app.
 
-- **Loading.** Reload the app or throttle the connection in DevTools to see the dashboard skeleton while requests settle.
-- **Search with no matches.** Search for `zzzzz`, then use **Clear search** to restore the list.
-- **Empty API data and dashboard errors.** The supplied mock supports `?scenario=empty` on list requests and `?scenario=error` on GET requests. Use a temporary request override for the corresponding dashboard request. Adding the parameter to the page URL alone leaves the dashboard requests unchanged. The Retry test demonstrates a one-time accounts failure and recovery. [API test hooks](brief/api-contract.md#test-and-demo-hooks)
-- **Transfer failure.** On the mock app, submit a valid transfer with `#fail` in the note. Review stays open with the transfer details and error message. Go back, remove the marker, and confirm again to exercise recovery.
+- **Loading.** Refresh the page to see the loading placeholders. If they disappear too quickly, use a slower network setting in browser DevTools.
+- **No search results.** Search for `zzzzz` to see the no-results message. Select **Clear search** to show the transactions again.
+- **Empty API data.** The supplied mock API can return an empty list using `?scenario=empty`. To try this, temporarily change the relevant API request in DevTools. Adding it to the website address does not change the API request.
+- **Dashboard error.** The mock API can simulate a failed GET request using `?scenario=error` on the relevant API request in DevTools. The automated Retry test also checks that the dashboard can recover from a temporary accounts error. See [API test hooks](brief/api-contract.md#test-and-demo-hooks).
+- **Transfer failure.** Enter `#fail` in the note for a valid transfer and confirm it. The Review step shows the error and keeps the transfer details. Go back, remove `#fail`, and confirm again.
 
 ## Tests
 
@@ -87,5 +88,13 @@ Three examples of changes I made while working with AI:
 - **Dashboard load error.** The dashboard failed once in Edge InPrivate and recovered after a normal reload. Both transfer flows and a dashboard refresh worked in a later production test. The cause is unknown.
 - **Missing tab icon.** The browser requests `/favicon.ico` and receives a 404.
 - **Install and build warnings.** `npm ci` reported deprecation warnings for `whatwg-encoding` and ESLint 9. The build reported two warnings about comments in Zod. The install and build completed, and all seven tests passed.
+
+### What I would improve with more time
+
+1. **Code quality (first priority).** Refactor and simplify code, improve naming, reduce repeated logic, and replace unnecessary comments with clearer explanations where needed.
+2. **Transfer UI.** Improve the layout, spacing and clarity of the transfer steps, especially for new recipients.
+3. **Error messages.** Make errors easier to understand and explain what users can do next.
+4. **Testing.** Add more tests for different scenarios and edge cases.
+5. **Mobile layout.** Further improve the experience on smaller screens.
 
 See the [verification checklist](docs/todo.md) for browser checks and what remains to verify.
