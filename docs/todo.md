@@ -8,12 +8,17 @@ record evidence in the [journal](development-journal.md).
 
 ## Current checklist — 20 November 2026
 
-The core flows are implemented locally. The final submission README and public deployment verification are still open. Use this page in the repo so each requirement stays next to its code and Ace can follow the same links once the work is published.
+The core flows are implemented and verified on the public production URL. Submit by the 5 PM SGT backstop. The earlier intermittent dashboard refresh failure did not recur in the latest captured refresh, and its cause remains unconfirmed.
 
-- [ ] **Prepare the submission README.** Update the stale status, document structure and decisions, describe how to observe loading/empty/error states, list the seven tests, and give two or three actual examples of changing or correcting AI output. Record remaining gaps and include the live URL. [Original README instructions](assessment/README.original.md#5-submit)
-- [ ] **Finish or document the remaining local checks.** Compare loading and loaded positions, exercise genuine empty responses, check first-invalid-field focus for a new recipient and one-click recovery after correcting an amount, and verify focus and AA contrast in all four theme combinations. Check the favicon 404 in the final browser pass.
-- [ ] **Publish and verify the latest revision.** Check Node 22 in the deployment, then open the public HTTPS URL signed out, refresh, and try one saved-payee and one new-recipient transfer. After each, check the balance, new transaction and remaining daily limit. Check the console and service worker. [Deployment guide](../DEPLOYMENT.md)
+- [x] **Prepare the submission README.** Includes the live URL, setup, structure, decisions, UI states, seven tests, AI-use examples and known gaps. [Submission README](../README.md)
+- [x] **Run local checks on Node 22.** Lint, TypeScript, all seven tests and the production build passed on Node 22.23.5.
+- [x] **Verify the production revision and build version.** Vercel marks main merge `5172593` (PR #6) Production Ready. Its build log confirms the switch from Node 26.x to 22.x.
+- [x] **Verify public entry.** Edge InPrivate opened the production URL without a login prompt. A successful run showed the worker active and all three dashboard GETs returning 200. A separate run showed API 404s and Retry, then recovered after a normal reload. The trigger for the failed requests is unconfirmed.
+- [x] **Verify both production transfer paths.** The browser smoke test recorded one SGD 50 transfer to saved payee Jamie Tan and two intentional SGD 50 transfers to new recipient Alex. Recent transactions showed all three entries, total available fell to SGD 16,970.55, and the remaining limit fell to SGD 4,850.00. [Production app](https://dbs-react-microfrontend-assessment.vercel.app/)
 - [ ] **Submit.** Reply to the invitation with the public repository and live URLs.
+- [x] **Verify a later refresh in the production smoke run.** Edge InPrivate logged three transfer POSTs returning 201, each followed by successful dashboard GETs. At 15:55:15 SGT, a separate batch of customer, accounts and transactions GETs returned 200 through the service worker. The earlier 404s did not recur in this run.
+
+Open verification outside the smoke test includes exact skeleton alignment, genuine empty API responses, first-invalid-field focus for a new recipient, one-click recovery after correcting an amount, targeted API field errors, and full keyboard and AA contrast checks across all four theme combinations. A favicon 404 was also observed.
 
 ## Requirement → code → evidence
 
@@ -46,7 +51,7 @@ The core flows are implemented locally. The final submission README and public d
 | E3 | [Transfer schemas](../src/lib/transfer-schema.ts), [form setup](../src/components/TransferDialog.tsx#L46) | RHF uses Zod resolvers for validation. Form state survives step changes. |
 | E4 | [Retry, over-balance and success tests](../src/App.test.tsx#L53), [test cleanup](../src/test/setup.ts#L10) | All three mandatory behaviours pass. The suite also covers the greeting, saved-payee rejection and two formatters. |
 | E5 | [Scripts](../package.json) | Local lint, types, seven tests and production build passed. The build emitted two Zod annotation warnings. Browser console verification remains open. |
-| E6 | [Browser worker startup](../src/main.tsx#L7), [deployment guide](../DEPLOYMENT.md) | Production files include the worker. Signed-out smoke test of the latest public deployment remains open. |
+| E6 | [Browser worker startup](../src/main.tsx#L7), [deployment guide](../DEPLOYMENT.md) | Production is Ready on Node 22. Public dashboard and MSW confirmed in InPrivate. Both transfer paths updated the dashboard, and a later refresh returned three 200s. An earlier run hit API 404s and recovered on reload. The cause remains unconfirmed. |
 | §§4–6 | [Formatters](../src/lib/format.ts), [dashboard and dialog styles](../src/index.css), [supplied mock data](../mock-api/db.json) | Shared SGD and Singapore date formatting covered by tests. Review exact copy and desktop layout on the final pass. |
 
 ## Interview practice
